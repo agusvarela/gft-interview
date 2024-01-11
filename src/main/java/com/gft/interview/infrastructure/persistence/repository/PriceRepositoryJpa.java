@@ -24,11 +24,4 @@ public interface PriceRepositoryJpa extends JpaRepository<PriceEntity, Long> {
             @Param("brandId") Long brandId
     );
 
-    Optional<PriceEntity> findFirstByProductIdAndBrandIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
-            Long productId,
-            Long brandId,
-            LocalDateTime startDate,
-            LocalDateTime endDate
-    );
-
 }
