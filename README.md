@@ -57,5 +57,9 @@ docker-compose up
 Once the application is running, you can find all the information to test the application via swagger:
 http://localhost:8080/swagger-ui/index.html
 
+Or you can see the OpenApi documentation:
+http://localhost:8080/api-docs (json format)
+http://localhost:8080/api-docs.yaml (yaml format)
+
 Or you could see and import the Postman collection:
 https://documenter.getpostman.com/view/10728290/2s9YsKfrhm
