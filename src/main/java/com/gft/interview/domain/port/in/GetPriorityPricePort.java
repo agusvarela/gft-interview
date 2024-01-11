@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface GetPriorityPricePort {
 
     Optional<Price> getPriorityPrice(LocalDateTime applicationDate, Long productId, Long brandId);
+
 }

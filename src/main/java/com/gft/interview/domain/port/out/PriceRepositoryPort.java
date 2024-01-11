@@ -4,10 +4,10 @@ package com.gft.interview.domain.port.out;
 import com.gft.interview.domain.model.Price;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Optional;
 
 public interface PriceRepositoryPort {
 
-    List<Price> findPricesOrderByPriority(LocalDateTime applicationDate, Long productId, Long brandId);
+    Optional<Price> findPricesOrderByPriority(LocalDateTime applicationDate, Long productId, Long brandId);
 
 }

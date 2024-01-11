@@ -11,11 +11,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -36,34 +36,34 @@ public class PriceServiceTest {
 
     @Test
     public void getPriorityPrice_whenReturnsPrice_thenSuccess() {
-        List<Price> priceList = List.of(new Price());
+        Optional<Price> price = Optional.of(new Price());
+
         when(priceRepositoryPort.findPricesOrderByPriority(any(LocalDateTime.class),
-                any(Long.class), any(Long.class)))
-                .thenReturn(priceList);
+                any(Long.class), any(Long.class))).thenReturn(price);
 
         Optional<Price> result = priceService.getPriorityPrice(LocalDateTime.now(),
                 1L, 1L);
 
-        assertEquals(Optional.of(priceList.get(0)), result);
+        assertTrue(result.isPresent());
+        assertEquals(price, result);
 
         verify(priceRepositoryPort, times(1))
-                .findPricesOrderByPriority(
-                        any(LocalDateTime.class), any(Long.class), any(Long.class));
+                .findPricesOrderByPriority(any(LocalDateTime.class), any(Long.class), any(Long.class));
     }
 
     @Test
     public void getPriorityPrice_whenNoPriceFound_thenEmptyResult() {
         when(priceRepositoryPort.findPricesOrderByPriority(any(LocalDateTime.class),
                 any(Long.class), any(Long.class)))
-                .thenReturn(new ArrayList<>());
+                .thenReturn(Optional.empty());
 
         Optional<Price> result = priceService.getPriorityPrice(LocalDateTime.now(),
                 1L, 1L);
 
+        assertFalse(result.isPresent());
         assertEquals(Optional.empty(), result);
 
         verify(priceRepositoryPort, times(1))
-                .findPricesOrderByPriority(
-                        any(LocalDateTime.class), any(Long.class), any(Long.class));
+                .findPricesOrderByPriority(any(LocalDateTime.class), any(Long.class), any(Long.class));
     }
 }

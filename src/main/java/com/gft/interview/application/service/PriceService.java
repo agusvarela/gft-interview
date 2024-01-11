@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -21,15 +20,16 @@ public class PriceService implements GetPriorityPricePort {
     }
 
     @Override
-    public Optional<Price> getPriorityPrice(LocalDateTime applicationDate,
-                                            Long productId, Long brandId) {
-
+    public Optional<Price> getPriorityPrice(LocalDateTime applicationDate, Long productId, Long brandId) {
         log.info("[getPriorityPrice] - Processing request for applicationDate: {}, productId: {}, brandId: {}",
                 applicationDate, productId, brandId);
 
-        List<Price> priceList = priceRepositoryPort
+        Optional<Price> priceFound = priceRepositoryPort
                 .findPricesOrderByPriority(applicationDate, productId, brandId);
 
-        return priceList.stream().findFirst();
+        log.info("[getPriorityPrice] - Found {} for applicationDate: {}, productId: {}, brandId: {}",
+                priceFound, applicationDate, productId, brandId);
+
+        return priceFound;
     }
 }

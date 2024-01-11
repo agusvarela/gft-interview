@@ -11,10 +11,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -35,29 +34,31 @@ public class PriceRepositoryAdapterTest {
 
     @Test
     public void findPricesOrderByPriority_whenReturnsAnEmptyList_thenNoPriceFound() {
-        when(priceRepositoryJpa.findPricesByApplicationDateAndProductAndBrand(any(), any(), any()))
-                .thenReturn(Collections.emptyList());
+        when(priceRepositoryJpa.findPriceByApplicationDateAndProductAndBrand(any(), any(), any()))
+                .thenReturn(Optional.empty());
 
-        List<Price> prices = priceRepositoryAdapter.findPricesOrderByPriority(
+        Optional<Price> prices = priceRepositoryAdapter.findPricesOrderByPriority(
                 LocalDateTime.now(), 1L, 1L);
 
-        assertEquals(0, prices.size());
+        assertTrue(prices.isEmpty());
 
-        verify(priceRepositoryJpa, times(1)).findPricesByApplicationDateAndProductAndBrand(any(), any(), any());
+        verify(priceRepositoryJpa, times(1))
+                .findPriceByApplicationDateAndProductAndBrand(any(), any(), any());
     }
 
     @Test
     public void findPricesOrderByPriority_whenReturnsPriceList_thenPricesFound() {
-        List<PriceEntity> priceEntityList = List.of(new PriceEntity());
+        Optional<PriceEntity> priceEntity = Optional.of(new PriceEntity());
 
-        when(priceRepositoryJpa.findPricesByApplicationDateAndProductAndBrand(any(), any(), any()))
-                .thenReturn(priceEntityList);
+        when(priceRepositoryJpa.findPriceByApplicationDateAndProductAndBrand(any(), any(), any()))
+                .thenReturn(priceEntity);
 
-        List<Price> prices = priceRepositoryAdapter.findPricesOrderByPriority(
+        Optional<Price> prices = priceRepositoryAdapter.findPricesOrderByPriority(
                 LocalDateTime.now(), 1L, 1L);
 
-        assertEquals(priceEntityList.size(), prices.size());
+        assertTrue(prices.isPresent());
 
-        verify(priceRepositoryJpa, times(1)).findPricesByApplicationDateAndProductAndBrand(any(), any(), any());
+        verify(priceRepositoryJpa, times(1))
+                .findPriceByApplicationDateAndProductAndBrand(any(), any(), any());
     }
 }
