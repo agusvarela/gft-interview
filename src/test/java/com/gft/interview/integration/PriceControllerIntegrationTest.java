@@ -23,37 +23,37 @@ public class PriceControllerIntegrationTest {
 
     @Test
     public void whenRequestPriceEndpointOnDay14At10AM_thenSuccessfulResponse() {
-        testSuccessfulResponse("/zara/v1/priority-price?applicationDate=2020-06-14T10:00&productId=35455&brandId=1");
+        testSuccessfulResponse("/priority-price?applicationDate=2020-06-14T10:00&productId=35455&brandId=1");
     }
 
     @Test
     public void whenRequestPriceEndpointOnDay14At4PM_thenSuccessfulResponse() {
-        testSuccessfulResponse("/zara/v1/priority-price?applicationDate=2020-06-14T16:00&productId=35455&brandId=1");
+        testSuccessfulResponse("/priority-price?applicationDate=2020-06-14T16:00&productId=35455&brandId=1");
     }
 
     @Test
     public void whenRequestPriceEndpointOnDay14At9PM_thenSuccessfulResponse() {
-        testSuccessfulResponse("/zara/v1/priority-price?applicationDate=2020-06-14T21:00&productId=35455&brandId=1");
+        testSuccessfulResponse("/priority-price?applicationDate=2020-06-14T21:00&productId=35455&brandId=1");
     }
 
     @Test
     public void whenRequestPriceEndpointOnDay15At10AM_thenSuccessfulResponse() {
-        testSuccessfulResponse("/zara/v1/priority-price?applicationDate=2020-06-15T10:00&productId=35455&brandId=1");
+        testSuccessfulResponse("/priority-price?applicationDate=2020-06-15T10:00&productId=35455&brandId=1");
     }
 
     @Test
     public void whenRequestPriceEndpointOnDay16At9PM_thenSuccessfulResponse() {
-        testSuccessfulResponse("/zara/v1/priority-price?applicationDate=2020-06-16T21:00&productId=35455&brandId=1");
+        testSuccessfulResponse("/priority-price?applicationDate=2020-06-16T21:00&productId=35455&brandId=1");
     }
 
     @Test
     public void whenRequestPriceEndpoint_thenNotFoundResponse() {
-        testNotFoundResponse("/zara/v1/priority-price?applicationDate=2020-06-16T21:00&productId=1&brandId=1");
+        testNotFoundResponse("/priority-price?applicationDate=2020-06-16T21:00&productId=1&brandId=1");
     }
 
     @Test
     public void whenRequestPriceEndpointWithMalformedDate_thenBadRequestResponse() {
-        testBadRequest("/zara/v1/priority-price?applicationDate=2020-06-16T21:0&productId=1&brandId=1");
+        testBadRequest("/priority-price?applicationDate=2020-06-16T21:0&productId=1&brandId=1");
     }
 
     private void testSuccessfulResponse(String url) {

@@ -7,34 +7,21 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PriceEntityMapperTest {
 
     @Test
     public void mapToPrice_thenReturnsCorrectPrice() {
-        PriceEntity priceEntity = buildPriceEntity(1L);
+        Optional<PriceEntity> priceEntity = Optional.of(buildPriceEntity(1L));
 
-        Price price = PriceEntityMapper.mapToPrice(priceEntity);
+        Optional<Price> price = PriceEntityMapper.mapToPrice(priceEntity);
 
-        assertEquals(priceEntity.getProductId(), price.getProductId());
-    }
-
-    @Test
-    public void mapToPriceList_thenReturnsCorrectPriceList() {
-        PriceEntity priceEntity1 = buildPriceEntity(1L);
-        PriceEntity priceEntity2 = buildPriceEntity(2L);
-
-        List<PriceEntity> priceEntityList = Arrays.asList(priceEntity1, priceEntity2);
-
-        List<Price> priceList = PriceEntityMapper.mapToPriceList(priceEntityList);
-
-        assertEquals(2, priceList.size());
-        assertEquals(priceEntity1.getProductId(), priceList.get(0).getProductId());
-        assertEquals(priceEntity2.getProductId(), priceList.get(1).getProductId());
+        assertTrue(price.isPresent());
+        assertEquals(priceEntity.get().getProductId(), price.get().getProductId());
     }
 
     private PriceEntity buildPriceEntity(Long productId) {

@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -22,15 +22,15 @@ public class PriceRepositoryAdapter implements PriceRepositoryPort {
     }
 
     @Override
-    public List<Price> findPricesOrderByPriority(
+    public Optional<Price> findPricesOrderByPriority(
             LocalDateTime applicationDate, Long productId, Long brandId) {
 
-        List<PriceEntity> priceEntityList = priceRepositoryJpa
-                .findPricesByApplicationDateAndProductAndBrand(applicationDate, productId, brandId);
+        Optional<PriceEntity> priceEntity = priceRepositoryJpa
+                .findPriceByApplicationDateAndProductAndBrand(applicationDate, productId, brandId);
 
         log.info("[findPricesOrderByPriority] - Found {} prices for applicationDate: {}, productId: {}, brandId: {}",
-                priceEntityList.size(), applicationDate, productId, brandId);
+                priceEntity, applicationDate, productId, brandId);
 
-        return PriceEntityMapper.mapToPriceList(priceEntityList);
+        return PriceEntityMapper.mapToPrice(priceEntity);
     }
 }
